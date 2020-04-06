@@ -90,7 +90,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       imageSizes.push({
         width: imageUrl.width || 0,
         height: imageUrl.height || 0,
-        status: 'loading'
+        status: nextProps.disablePrefetching ? 'success' : 'loading',
       });
     });
 
@@ -180,8 +180,8 @@ export default class ImageViewer extends React.Component<Props, State> {
     }
 
     // 如果已知源图片宽高，直接设置为 success
-    if (image.width && image.height){
-      if(this.props.enablePreload && imageLoaded===false){
+    if (image.width && image.height) {
+      if(!this.props.disablePrefetching && this.props.enablePreload && imageLoaded===false){
         Image.prefetch(image.url)
       }
       imageStatus.width = image.width;
