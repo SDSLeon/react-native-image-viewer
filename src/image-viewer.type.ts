@@ -40,7 +40,12 @@ export class Props {
   /**
    * 初始显示第几张图
    */
-  public index?: number = 0;
+  public initialIndex?: number = 0;
+
+  /**
+   * 初始显示第几张图
+   */
+  public index?: number;
 
   /**
    * 加载失败的图

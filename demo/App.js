@@ -1,62 +1,89 @@
-import React, { Component } from 'react';
-import { View, Modal, TouchableNativeFeedback, Text } from 'react-native';
-import ImageViewer from './built/index';
+import React, { Component, useState } from 'react';
+import { View, Modal, Text, TouchableOpacity, Dimensions, Image } from 'react-native';
+import ImageViewer from './build/index';
 
-const images = [
+const defaultImages = [
   {
-    // Simplest usage.
-    // url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460",
-    // url:
-    // "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1527660246058&di=6f0f1b19cf05a64317cbc5d2b3713d64&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0112a85874bd24a801219c7729e77d.jpg",
-    // You can pass props to <Image />.
-    props: {
-      // headers: ...
-      source: require('./img.png')
-    },
-    freeHeight: true
+    url: 'https://images.hdqwalls.com/download/skye-united-kingdom-8k-yh-7680x4320.jpg',
   },
   {
-    // Simplest usage.
-    // url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460",
-    // url:
-    // "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1527660246058&di=6f0f1b19cf05a64317cbc5d2b3713d64&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0112a85874bd24a801219c7729e77d.jpg",
-    // You can pass props to <Image />.
-    props: {
-      // headers: ...
-      source: require('./img.png')
-    },
-    freeHeight: true
-  }
+    url: 'https://www.setaswall.com/wp-content/uploads/2018/05/8K-Wallpaper-02-7680x4320.jpg'
+  },
 ];
 
-export default class Main extends Component {
+const dimensions = Dimensions.get("window");
+
+const RenderImage = props => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  console.log(isLoaded)
+
+  return (
+    <>
+      <Image {...props} source={{...props.source}} onLoadEnd={() => setIsLoaded(true)} onError={() => setIsLoaded(true)} />
+      {!isLoaded && <Text style={{ color: 'white' }}>LOADING</Text>}
+    </>
+  );
+}
+
+export default class App extends Component {
   state = {
-    index: 0,
-    modalVisible: true
+    isModalOpen: true,
+    images: [...defaultImages],
   };
 
+  curImageSize = {
+    height: 0,
+    width: 0,
+  }
+
+  componentWillMount() {
+    setTimeout(() => this.setState(({ images }) => ({ images: [...images, { url: 'https://images.hdqwalls.com/download/skye-united-kingdom-8k-yh-7680x4320.jpg' }] })), 2000)
+  }
+
   render() {
+    const { images } = this.state;
+
     return (
       <View
         style={{
           padding: 10
         }}
       >
-        <Modal
-          visible={this.state.modalVisible}
-          transparent={true}
-          onRequestClose={() => this.setState({ modalVisible: false })}
+        {this.state.isModalOpen && <Modal
+          visible
         >
           <ImageViewer
+            enableSwipeDown
+            onSwipeDown={() => this.setState({ isModalOpen: false })}
+            renderImage={props => <RenderImage {...props} />}
             imageUrls={images}
-            index={this.state.index}
-            onSwipeDown={() => {
-              console.log('onSwipeDown');
-            }}
-            onMove={data => console.log(data)}
-            enableSwipeDown={true}
+            initialIndex={1}
+            loadingRender={() => <Text style={{ color: 'white' }}>LOADING</Text>}
           />
-        </Modal>
+        </Modal>}
+        <TouchableOpacity onPress={() => this.setState({ isModalOpen: true })}>
+          <Text>modal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setState({ isModalOpen: true })}>
+          <Text>modal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setState({ isModalOpen: true })}>
+          <Text>modal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setState({ isModalOpen: true })}>
+          <Text>modal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setState({ isModalOpen: true })}>
+          <Text>modal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setState({ isModalOpen: true })}>
+          <Text>modal</Text>
+        </TouchableOpacity>
+        <Image source={{uri: "https://images3.alphacoders.com/124/thumb-1920-124547.jpg", cache: 'force-cache'}} style={{"height": 276.134765625, "width": 414}} />
+        <TouchableOpacity onPress={() => this.setState({ isModalOpen: true })}>
+          <Text>modal</Text>
+        </TouchableOpacity>
       </View>
     );
   }

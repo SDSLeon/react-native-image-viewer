@@ -53,7 +53,11 @@ export default class ImageViewer extends React.Component<Props, State> {
   }
 
   public componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.index !== this.state.currentShowIndex) {
+    if (nextProps.imageUrls.length !== this.props.imageUrls.length) {
+      this.init(nextProps, true);
+    }
+
+    if (typeof nextProps.index === 'number' && nextProps.index !== this.state.currentShowIndex) {
       this.setState(
         {
           currentShowIndex: nextProps.index
@@ -78,7 +82,7 @@ export default class ImageViewer extends React.Component<Props, State> {
   /**
    * props 有变化时执行
    */
-  public init(nextProps: Props) {
+  public init(nextProps: Props, isUpdate?: boolean) {
     if (nextProps.imageUrls.length === 0) {
       // 隐藏时候清空
       this.fadeAnim.setValue(0);
@@ -95,18 +99,22 @@ export default class ImageViewer extends React.Component<Props, State> {
       });
     });
 
+    const initialIndex = isUpdate ? this.state.currentShowIndex : nextProps.index || nextProps.initialIndex;;
+
     this.setState(
       {
-        currentShowIndex: nextProps.index,
+        currentShowIndex: initialIndex,
         imageSizes
       },
       () => {
+        this.loadedIndex.clear();
+
         // 立刻预加载要看的图
-        this.loadImage(nextProps.index || 0);
+        this.loadImage(initialIndex || 0);
 
         this.jumpToCurrentImage();
 
-        // 显示动画
+        // // 显示动画
         Animated.timing(this.fadeAnim, {
           toValue: 1,
           duration: 200,
@@ -534,6 +542,7 @@ export default class ImageViewer extends React.Component<Props, State> {
           if (this.props.enablePreload){
             this.preloadImage(this.state.currentShowIndex||0)
           }
+
           return (
             <ImageZoom
               key={index}

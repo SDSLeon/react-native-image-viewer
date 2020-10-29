@@ -1,12 +1,12 @@
 {
   "name": "react-native-image-zoom-viewer",
-  "version": "2.2.25",
+  "version": "2.3.0",
   "description": "react native image viewer,大图浏览",
-  "main": "built/index.js",
-  "types": "built/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
-    "prepare": "rm -rf built && tsc",
-    "start": "tsc -w --outDir demo/built"
+    "build": "rm -rf build && tsc",
+    "start": "tsc -w --outDir demo/build"
   },
   "repository": {
     "type": "git",
@@ -18,20 +18,20 @@
   "author": "ascoders",
   "license": "MIT",
   "dependencies": {
-    "react-native-image-pan-zoom": "^2.1.9"
+    "react-native-image-pan-zoom": "2.1.12"
   },
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
   },
   "devDependencies": {
-    "@types/react": "*",
-    "@types/react-native": "*",
+    "@types/react": "16.9.55",
+    "@types/react-native": "0.63.30",
     "ascoders-tslint-config": "^1.0.2",
-    "react": "*",
-    "react-native": "*",
-    "tslint": "^5.8.0",
-    "tslint-config-prettier": "^1.13.0",
-    "typescript": "^2.9.2"
+    "react": "17.0.1",
+    "react-native": "0.63.3",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.0.5"
   }
 }
